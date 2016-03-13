@@ -8,22 +8,10 @@ ig.module(
 
     EntityKid00 = EntityBasekid.extend({
 
-        size: { x: 24, y: 48 },
-        collides: ig.Entity.COLLIDES.PASSIVE,
-        maxVel: {
-			x: 275,
-			y: 300
-		},
-		accelGround: 500,
-		accelAir: 300,
-		speed: {current:0,normal:30,fast:40},
-        friction: {x:400,y:600},
-
-        type: ig.Entity.TYPE.B, // Player friendly group
-		checkAgainst: ig.Entity.TYPE.A,
-        collides: ig.Entity.COLLIDES.PASSIVE,
+		speed: {current:0,normal:30,fast:60,randomFactor:2},
 
 		name:"kid00",
+		kidIndex:0,
 
         animSheet: new ig.AnimationSheet('media/kids.png', 24, 48),
 

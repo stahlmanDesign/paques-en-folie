@@ -14,8 +14,29 @@ ig.module(
 MyGame = ig.Game.extend({
 
 	// Load a font
-	font: new ig.Font( 'media/04b03.font.png' ),
+	font: new ig.Font( 'media/stag-white.png' ),
 
+	oeufs: [], // will contain eggs in game
+
+	// HUD icons, will define coordinates in atlas later
+	kidsIcon: new ig.Image('media/kids.png'),
+	kids: [{
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}, {
+		numOeufs: 0
+	}],
 
 	init: function() {
 		// Initialize your game here; bind keys etc.
@@ -31,11 +52,23 @@ MyGame = ig.Game.extend({
 		ig.game.oeufTimer = new ig.Timer(1);
 
 		ig.game.loadLevel(ig.global['Level' + 'Level1']);
-	},
 
+		ig.Timer.timeScale = 0;
+	},
+	paused: true,
+	pause: function() {
+		ig.Timer.timeScale = 0;
+		ig.game.paused = true;
+	},
+	unpause: function() {
+		ig.Timer.timeScale = 1;
+		ig.game.paused = false;
+	},
 
 	update: function() {
 
+		// when key pressed, game unpauses
+		ig.show('oeufs',ig.game.oeufs.length);
 		// camera follow player
 		if( ig.game.player ) {
 			this.screen.x = ig.game.player.pos.x - ig.system.width/2;
@@ -52,14 +85,42 @@ MyGame = ig.Game.extend({
 	draw: function() {
 		// Draw all entities and backgroundMaps
 		this.parent();
-
-
 		// Add your own drawing code here
-		var x = ig.system.width/2,
-			y = ig.system.height/2;
+		var x = ig.system.width / 2,
+			y = ig.system.height / 2;
+		if (ig.game.paused) this.font.draw("Aidez chaque enfant\n à trouver un oeuf\n sans qu'ils t'attrappent!", x, y, ig.Font.ALIGN.CENTER);
+		if (!ig.global.wm && ig.game.player) {
+			var x = 10,
+				y = 10;
+			// draw HUD inventory items
+			//if (ig.game.gameIsOver){
+			ig.game.font.draw('Oeufs:' + ig.game.oeufs.length, x / 5, y / 5, ig.Font.ALIGN.LEFT);
+			//}else{
+			y += 22;
+		}
+		ig.game.font.draw("0", x, y, ig.Font.ALIGN.LEFT);
 
-		this.font.draw( 'It Works!', x, y, ig.Font.ALIGN.CENTER );
+
+		// look X num times depending on giant lives left to draw how many lives left upper-right HUD
+		var spritePosition = 0;
+		var spriteSize = 24;
+		var icon = ig.game.kidsIcon;
+		for (var i = 0; i < (7*8); i++) {
+			//.drawTile( targetX, targetY, tile, tileWidth, [tileHeight], [flipX], [flipY] )
+			icon.drawTile(x, y, spritePosition, spriteSize,48);
+
+
+			x += 4;
+			spritePosition+=1;
+		}
+		y+=42;
+		x=12;
+		for (var i in ig.game.kids){
+			ig.game.font.draw(ig.game.kids[i].numOeufs, x, y, ig.Font.ALIGN.LEFT);
+		x+=28;
+		}
 	}
+
 });
 
 

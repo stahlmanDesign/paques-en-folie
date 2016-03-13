@@ -20,11 +20,10 @@ ig.module(
         friction: {x:400,y:600},
 
         type: ig.Entity.TYPE.B, // Player friendly group
-		checkAgainst: ig.Entity.TYPE.A,
-        collides: ig.Entity.COLLIDES.PASSIVE,
+		checkAgainst: ig.Entity.TYPE.B,
 
 		//name:"basekid",
-
+		//kidIndex:0,
 
         animSheet: new ig.AnimationSheet('media/kids.png', 24, 48),
 
@@ -39,20 +38,47 @@ ig.module(
 	        this.addAnim('run', 1, [14]);
 
         },
-
         update: function() {
+// chase bunny
+						var angle = this.angleTo(ig.game.player);
+						if ( this.distanceTo(ig.game.player) < 1000) {
+							this.speed.current = this.speed.normal;
+							this.vel.x = (Math.cos(angle) * this.speed.current);
+							this.vel.y = (Math.sin(angle) * this.speed.current);
+						}
+						// chase eggs
+						for (var i in ig.game.oeufs) {
+							var oeuf = ig.game.oeufs[i];
+							var angleOeuf = this.angleTo(oeuf);
+							if (this.distanceTo(oeuf) < 2000) {
+								this.speed.current = this.speed.fast * Math.random() * this.speed.randomFactor;
+								this.vel.x = (Math.cos(angleOeuf) * this.speed.current);
+								this.vel.y = (Math.sin(angleOeuf) * this.speed.current);
+							}
+						}
+						// but prefer bunny if close enough
+						if (this.distanceTo(ig.game.player) < 100) {
+							this.speed.current = this.speed.fast;
+							this.vel.x = (Math.cos(angle) * this.speed.current);
+							this.vel.y = (Math.sin(angle) * this.speed.current);
+						}
 
-			// chase bunny
-		    var angle = this.angleTo( ig.game.player );
+			// keep distance from each other
 
-			if (this.distanceTo(ig.game.player) < 500 ){
-		        this.vel.x = (Math.cos(angle) * this.speed.normal);
-		        this.vel.y = (Math.sin(angle) * this.speed.normal);
-		    }
-		    if (this.distanceTo(ig.game.player) < 100 ){
-		        this.vel.x = (Math.cos(angle) * this.speed.fast);
-		        this.vel.y = (Math.sin(angle) * this.speed.fast);
-		    }
+			for (var i in ig.game.entities) {
+				var ent = ig.game.entities[i];
+				if (ent instanceof EntityBasekid) {
+					var anotherKid = ent;
+					var angleKid = this.angleTo(anotherKid);
+					if (this.distanceTo(anotherKid) < 30 && anotherKid != this) {
+						this.speed.current = 20
+						this.vel.x = (Math.cos(angleKid) * -this.speed.current);
+						this.vel.y = (Math.sin(angleKid) * -this.speed.current);
+					}
+				}
+			}
+
+
 
 			// Handle user input; move left or right
 			var accel = this.standing ? this.accelGround : this.accelAir;

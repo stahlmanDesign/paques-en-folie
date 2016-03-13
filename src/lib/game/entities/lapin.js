@@ -20,8 +20,8 @@ ig.module(
         friction: {x:400,y:600},
 
         type: ig.Entity.TYPE.A, // Player friendly group
-		checkAgainst: ig.Entity.TYPE.B,
-        collides: ig.Entity.COLLIDES.PASSIVE,
+		checkAgainst: ig.Entity.TYPE.A,
+
 
 		name:"player",
 
@@ -39,7 +39,13 @@ ig.module(
         },
 
         update: function() {
-
+			if (ig.input.state('left') ||
+				ig.input.state('right') ||
+				ig.input.state('up') ||
+				ig.input.state('down') ||
+				ig.input.state('space')){
+					ig.game.unpause();
+				}
 
 			// Handle user input; move left or right
 			var accel = this.standing ? this.accelGround : this.accelAir;
@@ -76,8 +82,11 @@ ig.module(
 			}
 
 			if( ig.input.state('space') && ig.game.oeufTimer.delta() > 0) {
-				ig.game.spawnEntity('EntityOeuf',this.pos.x,this.pos.y);
-				ig.game.oeufTimer.set(1); // only allow spawning max once per second
+				var offset = -32;
+				if (this.flip) offset = 48;
+				ig.game.spawnEntity('EntityOeuf',this.pos.x+offset,this.pos.y+24 );
+
+				ig.game.oeufTimer.set(0.25); // only allow spawning max once per x second
 				//this.flip = false;
 			}
 
