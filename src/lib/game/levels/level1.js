@@ -1,5 +1,5 @@
 ig.module( 'game.levels.level1' )
-.requires( 'impact.image','game.entities.lapin' )
+.requires( 'impact.image','game.entities.lapin','game.entities.basekid' )
 .defines(function(){
 LevelLevel1=/*JSON[*/{
 	"entities": [
@@ -7,6 +7,11 @@ LevelLevel1=/*JSON[*/{
 			"type": "EntityLapin",
 			"x": 576,
 			"y": 564
+		},
+		{
+			"type": "EntityBasekid",
+			"x": 632,
+			"y": 444
 		}
 	],
 	"layer": [
