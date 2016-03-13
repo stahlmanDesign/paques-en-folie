@@ -36,8 +36,6 @@ ig.module(
             this.addAnim('idle', 1, [0]);
 	        this.addAnim('run', 0.1, [1,2,3,4,5,2]);
 
-
-
         },
 
         update: function() {
@@ -56,7 +54,12 @@ ig.module(
 				this.accel.x = accel;
 				this.flip = false;
 			}
-			else if( ig.input.state('up')) {
+
+			else {
+				this.accel.x = 0;
+			}
+
+			if( ig.input.state('up')) {
 				if (this.accel.y > 0) this.vel.y *=0.7; // prevents sliding as if on ice when changing direction
 				this.accel.y = -accel;
 				//this.flip = true;
@@ -67,12 +70,16 @@ ig.module(
 				this.accel.y = accel;
 				//this.flip = false;
 			}
+
 			else {
-				this.accel.x = 0;
 				this.accel.y = 0;
 			}
-ig.show('vel.x',this.vel.x);
-ig.show('vel.y',this.vel.y);
+
+			if( ig.input.state('space') && ig.game.oeufTimer.delta() > 0) {
+				ig.game.spawnEntity('EntityOeuf',this.pos.x,this.pos.y);
+				ig.game.oeufTimer.set(1); // only allow spawning max once per second
+				//this.flip = false;
+			}
 
 			if (this.vel.x == 0 && this.vel.y == 0) this.currentAnim = this.anims.idle;
 			else this.currentAnim = this.anims.run;

@@ -4,6 +4,7 @@ ig.module(
 .requires(
 	'impact.game',
 	'impact.font',
+	'game.entities.oeuf',
 	'game.levels.level1',
 
 	'impact.debug.debug'			// Include debugger
@@ -24,9 +25,10 @@ MyGame = ig.Game.extend({
 		ig.input.bind(ig.KEY.RIGHT_ARROW, 'right');
 		ig.input.bind(ig.KEY.UP_ARROW, 'up');
 		ig.input.bind(ig.KEY.DOWN_ARROW, 'down');
-		ig.input.bind(ig.KEY.X, 'jump');
+		ig.input.bind(ig.KEY.SPACE, 'space');
 		ig.input.bind(ig.KEY.P, 'pause');
 
+		ig.game.oeufTimer = new ig.Timer(1);
 
 		ig.game.loadLevel(ig.global['Level' + 'Level1']);
 	},
