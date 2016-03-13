@@ -32,9 +32,11 @@ ig.module(
 
             this.parent(x, y, settings);
 
-
-            this.addAnim('idle', 1, [0]);
-	        this.addAnim('run', 0.1, [0]);
+			// 8 kids with 7 anims each: 0-6, 7-13, 14-20 etc.
+			// these will be overridden by kid instances
+			// this base class should not be instantiated
+            this.addAnim('idle', 1, [14]); // 0, 7, 14, 21, 28, 35, 42, 49
+	        this.addAnim('run', 1, [14]);
 
         },
 
