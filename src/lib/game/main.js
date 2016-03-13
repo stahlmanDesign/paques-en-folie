@@ -66,9 +66,17 @@ MyGame = ig.Game.extend({
 	},
 
 	update: function() {
+		ig.game.averageNumOeufs =
+		Math.round((
+			ig.game.kids[0].numOeufs +
+			ig.game.kids[1].numOeufs +
+			ig.game.kids[2].numOeufs +
+			ig.game.kids[3].numOeufs
+		) / 4)
 
 		// when key pressed, game unpauses
-		ig.show('oeufs',ig.game.oeufs.length);
+		//ig.show('oeufs',ig.game.oeufs.length);
+		//ig.show('avg',ig.game.averageNumOeufs);
 		// camera follow player
 		if( ig.game.player ) {
 			this.screen.x = ig.game.player.pos.x - ig.system.width/2;
@@ -88,17 +96,17 @@ MyGame = ig.Game.extend({
 		// Add your own drawing code here
 		var x = ig.system.width / 2,
 			y = ig.system.height / 2;
-		if (ig.game.paused) this.font.draw("Aidez chaque enfant\n à trouver un oeuf\n sans qu'ils t'attrappent!", x, y, ig.Font.ALIGN.CENTER);
+		if (ig.game.paused) this.font.draw("Essayez de donner 9 oeufs à chaque enfant\n sans qu'ils t'attrappent!", x, y/2, ig.Font.ALIGN.CENTER);
 		if (!ig.global.wm && ig.game.player) {
 			var x = 10,
 				y = 10;
 			// draw HUD inventory items
 			//if (ig.game.gameIsOver){
-			ig.game.font.draw('Oeufs:' + ig.game.oeufs.length, x / 5, y / 5, ig.Font.ALIGN.LEFT);
+			ig.game.font.draw('Oeufs en moyenne:' + ig.game.averageNumOeufs, x / 5, y / 5, ig.Font.ALIGN.LEFT);
 			//}else{
 			y += 22;
 		}
-		ig.game.font.draw("0", x, y, ig.Font.ALIGN.LEFT);
+		//ig.game.font.draw("0", x, y, ig.Font.ALIGN.LEFT);
 
 
 		// look X num times depending on giant lives left to draw how many lives left upper-right HUD
@@ -117,6 +125,7 @@ MyGame = ig.Game.extend({
 		x=12;
 		for (var i in ig.game.kids){
 			ig.game.font.draw(ig.game.kids[i].numOeufs, x, y, ig.Font.ALIGN.LEFT);
+
 		x+=28;
 		}
 	}
