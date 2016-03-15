@@ -24,6 +24,7 @@ ig.module(
 
 		//name:"basekid",
 		//kidIndex:0,
+		isDespressed: false,
 
         animSheet: new ig.AnimationSheet('media/kids.png', 24, 48),
 
@@ -39,6 +40,10 @@ ig.module(
 
         },
         update: function() {
+
+	        if (ig.game.kids[this.kidIndex].numOeufs < ig.game.averageNumOeufs) this.isDepressed = true;
+	        else this.isDepressed = false;
+
 			// chase bunny
 			var angle = this.angleTo(ig.game.player);
 			if ( this.distanceTo(ig.game.player) < 1000) {
@@ -46,7 +51,8 @@ ig.module(
 				this.vel.x = (Math.cos(angle) * this.speed.current);
 				this.vel.y = (Math.sin(angle) * this.speed.current);
 			}
-			// chase eggs
+
+			// chase eggs if they are close
 			var oeufsProches = [];
 
 			for (var i in ig.game.oeufs) {
@@ -59,7 +65,12 @@ ig.module(
 					distanceTo: distanceTo
 				}
 
-				if (this.distanceTo(oeuf) < 2000) oeufsProches.push(dto);
+				var seekDistance = 3000;
+
+				if (this.isDepressed) seekDistance = 150;
+
+				if (this.distanceTo(oeuf) < seekDistance) oeufsProches.push(dto);
+
 			}
 
 			// sort eggs by closest
@@ -145,6 +156,21 @@ ig.module(
 
 			this.parent();
 
+        },
+        draw(){
+	        this.parent();
+
+			// show message. will be empty if not near player
+			//var s = ig.system.scale;
+			var s = ig.system.scale * 1; // *2 if upsampling pixel look
+			var x = this.pos.x * s - ig.game.screen.x * s;
+			var y = (this.pos.y-25) * s - ig.game.screen.y * s;
+			if (this.isDepressed){
+				ig.game.font.draw(":(", x/2, y/2, ig.Font.ALIGN.LEFT);
+			}
+
+
         }
+
     });
 });
