@@ -71,8 +71,12 @@ MyGame = ig.Game.extend({
 			ig.game.kids[0].numOeufs +
 			ig.game.kids[1].numOeufs +
 			ig.game.kids[2].numOeufs +
-			ig.game.kids[3].numOeufs
-		) / 4)
+			ig.game.kids[3].numOeufs +
+			ig.game.kids[4].numOeufs +
+			ig.game.kids[5].numOeufs +
+			ig.game.kids[6].numOeufs +
+			ig.game.kids[7].numOeufs
+		) / 8)
 
 		// when key pressed, game unpauses
 		//ig.show('oeufs',ig.game.oeufs.length);
@@ -96,7 +100,7 @@ MyGame = ig.Game.extend({
 		// Add your own drawing code here
 		var x = ig.system.width / 2,
 			y = ig.system.height / 2;
-		if (ig.game.paused) this.font.draw("Essayez de donner 9 oeufs à chaque enfant\n sans qu'ils t'attrappent!", x, y/2, ig.Font.ALIGN.CENTER);
+		if (ig.game.paused) this.font.draw("Distribuez les oeufs aux enfants\nle plus également que possible!", x, y/2, ig.Font.ALIGN.CENTER);
 		if (!ig.global.wm && ig.game.player) {
 			var x = 10,
 				y = 10;

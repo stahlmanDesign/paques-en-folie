@@ -102,7 +102,7 @@ ig.module(
 				if (ent instanceof EntityBasekid) {
 					var anotherKid = ent;
 					var angleKid = this.angleTo(anotherKid);
-					if (this.distanceTo(anotherKid) < 15 && anotherKid != this) {
+					if (this.distanceTo(anotherKid) < 25 && anotherKid != this) {
 						this.speed.current = 20
 						this.vel.x = (Math.cos(angleKid) * -this.speed.current);
 						this.vel.y = (Math.sin(angleKid) * -this.speed.current);
