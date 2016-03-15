@@ -66,12 +66,14 @@ MyGame = ig.Game.extend({
 		ig.game.paused = true;
 	},
 	unpause: function() {
+		if (ig.game.gameOver) return;
 		ig.Timer.timeScale = 1;
 		ig.game.paused = false;
 	},
 
 	update: function() {
 
+		ig.game.currentTimeLeft = Math.floor(Math.abs(ig.game.roundTimer.delta()));
 		ig.game.numKidsInRound = ig.game.round+1; // Round 1 = 2, Round 2 = 3 kids etc.
 		var numToAverage = 0;
 
@@ -86,6 +88,7 @@ MyGame = ig.Game.extend({
 		// new round?
 		if (ig.game.roundTimer.delta() > 0){
 			if (ig.game.round < 7) ig.game.round += 1;
+			else ig.game.gameOver = true;
 			ig.game.pause(); // game over
 
 			ig.game.roundTimer.set(ig.game.roundTime + ig.game.round * 2);
@@ -115,7 +118,8 @@ MyGame = ig.Game.extend({
 		var x = ig.system.width / 2,
 			y = ig.system.height / 2;
 		if (ig.game.paused){
-			if (ig.game.round == 1) ig.game.roundPauseMessage = "Distribuez les oeufs aux enfants\nle plus également que possible\n en " + ig.game.round + " secondes!";
+			if (ig.game.round == 1) ig.game.roundPauseMessage = "Distribuez les oeufs aux enfants\nle plus également que possible\n en " + ig.game.currentTimeLeft + " secondes!";
+			else if (ig.game.gameOver) ig.game.roundPauseMessage = "Game Over!"
 			else ig.game.roundPauseMessage = "Round " + ig.game.round + " prêt ?";
 
 			this.font.draw(ig.game.roundPauseMessage , x, y/2, ig.Font.ALIGN.CENTER);
@@ -128,7 +132,7 @@ MyGame = ig.Game.extend({
 			ig.game.font.draw('Oeufs en moyenne:' + ig.game.averageNumOeufs, x / 5, y / 5, ig.Font.ALIGN.LEFT);
 			//}else{
 			y += 22;
-			ig.game.font.draw('Round:'+ig.game.round+'   Temps:' + Math.floor(Math.abs(ig.game.roundTimer.delta())), x + 300,y/5, ig.Font.ALIGN.LEFT);
+			ig.game.font.draw('Round:'+ig.game.round+'   Temps:' + ig.game.currentTimeLeft, x + 300,y/5, ig.Font.ALIGN.LEFT);
 		}
 		//ig.game.font.draw("0", x, y, ig.Font.ALIGN.LEFT);
 

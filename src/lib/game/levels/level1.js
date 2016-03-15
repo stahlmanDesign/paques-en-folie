@@ -10,43 +10,43 @@ LevelLevel1=/*JSON[*/{
 		},
 		{
 			"type": "EntityKid00",
-			"x": 316,
-			"y": 664
+			"x": 352,
+			"y": 572
 		},
 		{
 			"type": "EntityKid01",
-			"x": 532,
-			"y": 424
+			"x": 812,
+			"y": 564
 		},
 		{
 			"type": "EntityKid02",
-			"x": 364,
-			"y": 500
+			"x": 876,
+			"y": 828
 		},
 		{
 			"type": "EntityKid03",
-			"x": 696,
-			"y": 448
+			"x": 768,
+			"y": 900
 		},
 		{
 			"type": "EntityKid04",
-			"x": 820,
-			"y": 604
+			"x": 644,
+			"y": 924
 		},
 		{
 			"type": "EntityKid06",
-			"x": 680,
-			"y": 860
+			"x": 396,
+			"y": 920
 		},
 		{
 			"type": "EntityKid05",
-			"x": 768,
-			"y": 768
+			"x": 528,
+			"y": 932
 		},
 		{
 			"type": "EntityKid07",
-			"x": 520,
-			"y": 844
+			"x": 272,
+			"y": 868
 		}
 	],
 	"layer": [
