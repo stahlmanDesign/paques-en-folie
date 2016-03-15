@@ -37,7 +37,10 @@ MyGame = ig.Game.extend({
 	}, {
 		numOeufs: 0
 	}],
-
+	round: 1,
+	numKidsInRound: 2,
+	roundTime: 15, // to start first round
+	roundPauseMessage: "",
 	init: function() {
 		// Initialize your game here; bind keys etc.
 
@@ -54,6 +57,8 @@ MyGame = ig.Game.extend({
 		ig.game.loadLevel(ig.global['Level' + 'Level1']);
 
 		ig.Timer.timeScale = 0;
+
+		ig.game.roundTimer = new ig.Timer(ig.game.roundTime);
 	},
 	paused: true,
 	pause: function() {
@@ -66,18 +71,27 @@ MyGame = ig.Game.extend({
 	},
 
 	update: function() {
-		ig.game.averageNumOeufs =
-		Math.round((
-			ig.game.kids[0].numOeufs +
-			ig.game.kids[1].numOeufs +
-			ig.game.kids[2].numOeufs +
-			ig.game.kids[3].numOeufs +
-			ig.game.kids[4].numOeufs +
-			ig.game.kids[5].numOeufs +
-			ig.game.kids[6].numOeufs +
-			ig.game.kids[7].numOeufs
-		) / 8)
 
+		ig.game.numKidsInRound = ig.game.round+1; // Round 1 = 2, Round 2 = 3 kids etc.
+		var numToAverage = 0;
+
+		for (var i=0;i<ig.game.numKidsInRound;i++){
+			//console.log(i)
+			numToAverage += ig.game.kids[i].numOeufs; // i = 0, 1, 2...
+		}
+
+		ig.game.averageNumOeufs = Math.round((numToAverage) / ig.game.numKidsInRound)
+
+
+		// new round?
+		if (ig.game.roundTimer.delta() > 0){
+			if (ig.game.round < 7) ig.game.round += 1;
+			ig.game.pause(); // game over
+
+			ig.game.roundTimer.set(ig.game.roundTime + ig.game.round * 2);
+			var kidToSpawn = "EntityKid0" + ig.game.round;
+			ig.game.spawnEntity(kidToSpawn, ig.game.player.pos.x,ig.game.player.pos.y)
+		}
 		// when key pressed, game unpauses
 		//ig.show('oeufs',ig.game.oeufs.length);
 		//ig.show('avg',ig.game.averageNumOeufs);
@@ -100,7 +114,12 @@ MyGame = ig.Game.extend({
 		// Add your own drawing code here
 		var x = ig.system.width / 2,
 			y = ig.system.height / 2;
-		if (ig.game.paused) this.font.draw("Distribuez les oeufs aux enfants\nle plus également que possible!", x, y/2, ig.Font.ALIGN.CENTER);
+		if (ig.game.paused){
+			if (ig.game.round == 1) ig.game.roundPauseMessage = "Distribuez les oeufs aux enfants\nle plus également que possible\n en " + ig.game.round + " secondes!";
+			else ig.game.roundPauseMessage = "Round " + ig.game.round + " prêt ?";
+
+			this.font.draw(ig.game.roundPauseMessage , x, y/2, ig.Font.ALIGN.CENTER);
+		}
 		if (!ig.global.wm && ig.game.player) {
 			var x = 10,
 				y = 10;
@@ -109,6 +128,7 @@ MyGame = ig.Game.extend({
 			ig.game.font.draw('Oeufs en moyenne:' + ig.game.averageNumOeufs, x / 5, y / 5, ig.Font.ALIGN.LEFT);
 			//}else{
 			y += 22;
+			ig.game.font.draw('Round:'+ig.game.round+'   Temps:' + Math.floor(Math.abs(ig.game.roundTimer.delta())), x + 300,y/5, ig.Font.ALIGN.LEFT);
 		}
 		//ig.game.font.draw("0", x, y, ig.Font.ALIGN.LEFT);
 

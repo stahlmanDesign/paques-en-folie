@@ -41,6 +41,8 @@ ig.module(
         },
         update: function() {
 
+			if (this.kidIndex > ig.game.round) this.kill(); // eliminate kid layed out in WM
+
 	        if (ig.game.kids[this.kidIndex].numOeufs < ig.game.averageNumOeufs) this.isDepressed = true;
 	        else this.isDepressed = false;
 
