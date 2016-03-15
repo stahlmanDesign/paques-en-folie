@@ -39,29 +39,50 @@ ig.module(
 
         },
         update: function() {
-// chase bunny
-						var angle = this.angleTo(ig.game.player);
-						if ( this.distanceTo(ig.game.player) < 1000) {
-							this.speed.current = this.speed.normal;
-							this.vel.x = (Math.cos(angle) * this.speed.current);
-							this.vel.y = (Math.sin(angle) * this.speed.current);
-						}
-						// chase eggs
-						for (var i in ig.game.oeufs) {
-							var oeuf = ig.game.oeufs[i];
-							var angleOeuf = this.angleTo(oeuf);
-							if (this.distanceTo(oeuf) < 2000) {
-								this.speed.current = this.speed.fast * Math.random() * this.speed.randomFactor;
-								this.vel.x = (Math.cos(angleOeuf) * this.speed.current);
-								this.vel.y = (Math.sin(angleOeuf) * this.speed.current);
-							}
-						}
-						// but prefer bunny if close enough
-						if (this.distanceTo(ig.game.player) < 100) {
-							this.speed.current = this.speed.fast;
-							this.vel.x = (Math.cos(angle) * this.speed.current);
-							this.vel.y = (Math.sin(angle) * this.speed.current);
-						}
+			// chase bunny
+			var angle = this.angleTo(ig.game.player);
+			if ( this.distanceTo(ig.game.player) < 1000) {
+				this.speed.current = this.speed.normal;
+				this.vel.x = (Math.cos(angle) * this.speed.current);
+				this.vel.y = (Math.sin(angle) * this.speed.current);
+			}
+			// chase eggs
+			var oeufsProches = [];
+
+			for (var i in ig.game.oeufs) {
+				var oeuf = ig.game.oeufs[i];
+				var angleOeuf = this.angleTo(oeuf);
+				var distanceTo = this.distanceTo(oeuf);
+				var dto = {
+					ent: oeuf,
+					angle: angleOeuf,
+					distanceTo: distanceTo
+				}
+
+				if (this.distanceTo(oeuf) < 2000) oeufsProches.push(dto);
+			}
+
+			// sort eggs by closest
+			ig.show('oeufsProches',oeufsProches.length);
+			if (oeufsProches.length > 0){
+				oeufsProches.sort(function(a, b) {
+				    return parseFloat(a.distanceTo) - parseFloat(b.distanceTo);
+				});
+
+				// chase after closest egg which is first in sorted array
+				this.speed.current = this.speed.fast * Math.random() * this.speed.randomFactor;
+				this.vel.x = (Math.cos(oeufsProches[0].angle) * this.speed.current);
+				this.vel.y = (Math.sin(oeufsProches[0].angle) * this.speed.current);
+				//console.log(oeufsProches)
+				//debugger;
+			}
+
+			// but prefer bunny if close enough
+			if (this.distanceTo(ig.game.player) < 100) {
+				this.speed.current = this.speed.fast;
+				this.vel.x = (Math.cos(angle) * this.speed.current);
+				this.vel.y = (Math.sin(angle) * this.speed.current);
+			}
 
 			// keep distance from each other
 
@@ -74,6 +95,7 @@ ig.module(
 						this.speed.current = 20
 						this.vel.x = (Math.cos(angleKid) * -this.speed.current);
 						this.vel.y = (Math.sin(angleKid) * -this.speed.current);
+						break; //
 					}
 				}
 			}

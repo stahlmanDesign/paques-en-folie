@@ -1,5 +1,5 @@
 ig.module( 'game.levels.level1' )
-.requires( 'impact.image','game.entities.lapin','game.entities.kid00','game.entities.kid01','game.entities.kid02','game.entities.kid03' )
+.requires( 'impact.image','game.entities.lapin','game.entities.kid00','game.entities.kid01','game.entities.kid02','game.entities.kid03','game.entities.kid04','game.entities.kid06','game.entities.kid05','game.entities.kid07' )
 .defines(function(){
 LevelLevel1=/*JSON[*/{
 	"entities": [
@@ -10,23 +10,43 @@ LevelLevel1=/*JSON[*/{
 		},
 		{
 			"type": "EntityKid00",
-			"x": 448,
-			"y": 668
+			"x": 316,
+			"y": 664
 		},
 		{
 			"type": "EntityKid01",
-			"x": 740,
-			"y": 460
+			"x": 532,
+			"y": 424
 		},
 		{
 			"type": "EntityKid02",
-			"x": 452,
-			"y": 440
+			"x": 364,
+			"y": 500
 		},
 		{
 			"type": "EntityKid03",
-			"x": 796,
-			"y": 664
+			"x": 696,
+			"y": 448
+		},
+		{
+			"type": "EntityKid04",
+			"x": 820,
+			"y": 604
+		},
+		{
+			"type": "EntityKid06",
+			"x": 680,
+			"y": 860
+		},
+		{
+			"type": "EntityKid05",
+			"x": 768,
+			"y": 768
+		},
+		{
+			"type": "EntityKid07",
+			"x": 520,
+			"y": 844
 		}
 	],
 	"layer": [
@@ -695,7 +715,7 @@ LevelLevel1=/*JSON[*/{
 			"width": 150,
 			"height": 150,
 			"linkWithCollision": true,
-			"visible": true,
+			"visible": 1,
 			"tilesetName": "media/ds_atlas_BTR.png",
 			"repeat": false,
 			"preRender": false,
