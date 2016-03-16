@@ -7,6 +7,11 @@ Video game for Easter
 
 - You are the Easter Bunny. Kids chase you. You drop eggs to distract them and make them go away. But they can come in from any direction so constantly be on the lookout.
 
+- update 16 mars: you are the easter bunny. Kids chase you unless you drop eggs. But distribute them equally to get a better score.
+
+- Inspiration comes from an egg hunt in Laval, QC which turned into chaos cause 10,000 people showed up instead of the expected hundreds
+https://www.youtube.com/watch?v=TRPB49Z7VAI
+
 #The game engine
 
 - uses ImpactJS game engine (you must provide the engine which requires a license) but all other source code is here
