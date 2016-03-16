@@ -20,7 +20,8 @@ ig.module(
 
 MyGame = ig.Game.extend({
 	// Load a font
-	font: new ig.Font('media/stag-white.png'),
+	font: new ig.Font('media/stag-16-white-outline.png'),
+	fontGreen: new ig.Font('media/stag-16-green-outline.png'),
 	oeufs: [],
 	// will contain eggs in game
 	// HUD icons, will define coordinates in atlas later
@@ -97,7 +98,19 @@ MyGame = ig.Game.extend({
 			//console.log(i)
 			numToAverage += ig.game.kids[i].numOeufs; // i = 0, 1, 2...
 		}
-		ig.game.averageNumOeufs = Math.round((numToAverage) / ig.game.numKidsInRound);
+		ig.game.averageNumOeufs = Math.floor((numToAverage) / ig.game.numKidsInRound);
+
+		ig.game.haves = 0;
+		ig.game.haveNots = 0;
+
+		for (var i = 0; i < ig.game.numKidsInRound; i ++){
+				var diff = ig.game.averageNumOeufs - ig.game.kids[i].numOeufs;
+				if (diff > 0 ) ig.game.haves += diff;
+				if (diff < 0 ) ig.game.haveNots += diff;
+				ig.show('haves',ig.game.haves);
+				ig.show('haveNots',ig.game.haveNots);
+		}
+
 		// new round?
 		if (ig.game.roundTimer.delta() > 0) {
 			if (ig.game.round < 7) ig.game.round += 1;
@@ -133,17 +146,22 @@ MyGame = ig.Game.extend({
 			if (ig.game.round == 1) ig.game.roundPauseMessage = "Distribuez les oeufs aux enfants\nle plus également que possible\n en " + ig.game.currentTimeLeft + " secondes!";
 			else if (ig.game.gameOver) ig.game.roundPauseMessage = "Game Over!";
 			else ig.game.roundPauseMessage = "Round " + ig.game.round + " prêt ?";
-			this.font.draw(ig.game.roundPauseMessage, x, y / 2, ig.Font.ALIGN.CENTER);
+			this.font.draw(ig.game.roundPauseMessage, x, y / 1.5, ig.Font.ALIGN.CENTER);
 		}
 		if (!ig.global.wm && ig.game.player) {
 			var x = 10,
-				y = 10;
+				y = 4;
 			// draw HUD inventory items
 			//if (ig.game.gameIsOver){
-			ig.game.font.draw('Oeufs en moyenne:' + ig.game.averageNumOeufs, x / 5, y / 5, ig.Font.ALIGN.LEFT);
-			//}else{
-			y += 22;
-			ig.game.font.draw('Round:' + ig.game.round + '   Temps:' + ig.game.currentTimeLeft, x + 300, y / 5, ig.Font.ALIGN.LEFT);
+			ig.game.fontGreen.draw('Rnd:' + ig.game.round + '   0:' + ig.game.currentTimeLeft, x, y, ig.Font.ALIGN.LEFT);
+			y += 18;
+			ig.game.fontGreen.draw('Oeufs moy.:', x, y, ig.Font.ALIGN.LEFT);
+			x =115;
+			ig.game.font.draw( ig.game.averageNumOeufs, x, y, ig.Font.ALIGN.LEFT);
+			x=10;
+			y += 18;
+			ig.game.fontGreen.draw('Égalité: Trop ' + ig.game.haves + "    Pas assez " + Math.abs(ig.game.haveNots), x,y, ig.Font.ALIGN.LEFT);
+			y += 18;
 		}
 		//ig.game.font.draw("0", x, y, ig.Font.ALIGN.LEFT);
 		// look X num times depending on giant lives left to draw how many lives left upper-right HUD
