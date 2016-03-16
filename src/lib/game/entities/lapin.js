@@ -45,30 +45,30 @@ ig.module(
     		// Handle user input; move left or right
     		var accel = this.standing ? this.accelGround : this.accelAir;
     		if (ig.input.state('left')) {
-    			if (this.accel.x > 0) this.vel.x *= 0.7; // prevents sliding as if on ice when changing direction
+    			if (this.accel.x > 0) this.vel.x *= 0.2; // prevents sliding as if on ice when changing direction
     			this.accel.x = -accel;
     			this.flip = true;
     		} else if (ig.input.state('right')) {
-    			if (this.accel.x < 0) this.vel.x *= 0.7; // prevents sliding as if on ice when changing direction
+    			if (this.accel.x < 0) this.vel.x *= 0.2; // prevents sliding as if on ice when changing direction
     			this.accel.x = accel;
     			this.flip = false;
     		} else {
     			this.accel.x = 0;
     		}
     		if (ig.input.state('up')) {
-    			if (this.accel.y > 0) this.vel.y *= 0.7; // prevents sliding as if on ice when changing direction
+    			if (this.accel.y > 0) this.vel.y *= 0.2; // prevents sliding as if on ice when changing direction
     			this.accel.y = -accel;
     			//this.flip = true;
     		} else if (ig.input.state('down')) {
-    			if (this.accel.y < 0) this.vel.y *= 0.7; // prevents sliding as if on ice when changing direction
+    			if (this.accel.y < 0) this.vel.y *= 0.2; // prevents sliding as if on ice when changing direction
     			this.accel.y = accel;
     			//this.flip = false;
     		} else {
     			this.accel.y = 0;
     		}
     		if (ig.input.state('space') && ig.game.oeufTimer.delta() > 0) {
-    			var offset = -32;
-    			if (this.flip) offset = 48;
+    			var offset = -12;
+    			if (this.flip) offset = 24;
     			ig.game.spawnEntity('EntityOeuf', this.pos.x + offset, this.pos.y + 24);
     			ig.game.oeufTimer.set(0.25); // only allow spawning max once per x second
     			//this.flip = false;

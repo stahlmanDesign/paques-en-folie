@@ -2,19 +2,19 @@ ig.module(
 	'game.main'
 )
 .requires(
-	'impact.game',
-	'impact.font',
-	'game.entities.oeuf',
-	'game.entities.kid00',
-	'game.entities.kid01',
-	'game.entities.kid02',
-	'game.entities.kid03',
-	'game.entities.kid04',
-	'game.entities.kid05',
-	'game.entities.kid06',
-	'game.entities.kid07',
-	'game.levels.level1'
-	//,'impact.debug.debug'			// Include debugger
+	'impact.game'
+	,'impact.font'
+	,'game.entities.oeuf'
+	,'game.entities.kid00'
+	,'game.entities.kid01'
+	,'game.entities.kid02'
+	,'game.entities.kid03'
+	,'game.entities.kid04'
+	,'game.entities.kid05'
+	,'game.entities.kid06'
+	,'game.entities.kid07'
+	,'game.levels.level1'
+	,'impact.debug.debug'			// Include debugger
 )
 .defines(function(){
 
@@ -53,13 +53,26 @@ MyGame = ig.Game.extend({
 		ig.input.bind(ig.KEY.LEFT_ARROW, 'left');
 		ig.input.bind(ig.KEY.RIGHT_ARROW, 'right');
 		ig.input.bind(ig.KEY.UP_ARROW, 'up');
-		ig.input.bind(ig.KEY.DOWN_ARROW, 'down');
+		ig.input.bind(ig.KEY.DOWN_ARROW, 'down')
 		ig.input.bind(ig.KEY.SPACE, 'space');
 		ig.input.bind(ig.KEY.P, 'pause');
 		ig.game.oeufTimer = new ig.Timer(1);
 		ig.game.loadLevel(ig.global['Level' + 'Level1']);
 		ig.Timer.timeScale = 0;
 		ig.game.roundTimer = new ig.Timer(ig.game.roundTime);
+		ig.game.spawnEggs();
+
+	},
+	spawnEggs:function(){
+
+		return; // skip this feature
+
+		var i;
+			for (i=0; i<2 * ig.game.round; i++){
+				var x = ig.game.player.pos.x + (Math.random() * ig.system.width /2 ) - (Math.random() * ig.system.width /2 ),
+					y = ig.game.player.pos.y + (Math.random() * ig.system.height /2 ) - (Math.random() * ig.system.height /2 );
+					ig.game.spawnEntity("EntityOeuf", x,y);
+			}
 	},
 	paused: true,
 	pause: function() {
@@ -70,6 +83,9 @@ MyGame = ig.Game.extend({
 		if (ig.game.gameOver) {
 			return;
 		}
+
+
+
 		ig.Timer.timeScale = 1;
 		ig.game.paused = false;
 	},
@@ -90,6 +106,10 @@ MyGame = ig.Game.extend({
 			ig.game.roundTimer.set(ig.game.roundTime + ig.game.round * 2);
 			var kidToSpawn = "EntityKid0" + ig.game.round;
 			ig.game.spawnEntity(kidToSpawn, ig.game.player.pos.x, ig.game.player.pos.y);
+
+			// spawn eggs
+			ig.game.spawnEggs();
+
 		}
 		// when key pressed, game unpauses
 		//ig.show('oeufs',ig.game.oeufs.length);
