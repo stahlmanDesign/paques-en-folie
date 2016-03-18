@@ -73,6 +73,11 @@ ig.module(
     			ig.game.oeufTimer.set(0.25); // only allow spawning max once per x second
     			//this.flip = false;
     		}
+
+    		if (ig.input.pressed('pause')) {
+    			ig.game.paused == true ? ig.game.unpause() : ig.game.pause()
+    		}
+
     		if (this.vel.x == 0 && this.vel.y == 0) {
     			this.currentAnim = this.anims.idle;
     		} else {
