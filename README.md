@@ -5,7 +5,7 @@ Video game for Easter
 
 # Ideas
 
-- You are the Easter Bunny. Kids chase you. You drop eggs to distract them and make them go away. But they can come in from any direction so constantly be on the lookout.
+- You are the Easter Bunny. Kids chase you. You drop eggs and try to distribute them equally, but kids are greedy.
 
 - update 16 mars: you are the easter bunny. Kids chase you unless you drop eggs. But distribute them equally to get a better score.
 
