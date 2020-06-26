@@ -2,7 +2,7 @@
 
 Video game for Easter
 
-<img src='//:github.com/stahlmanDesign/paques-en-folie/paques-en-folie.gif' alt='gif'/>
+<img src='https://github.com/stahlmanDesign/paques-en-folie/blob/master/paques-en-folie.gif' alt='gif'/>
 
 # Ideas
 
